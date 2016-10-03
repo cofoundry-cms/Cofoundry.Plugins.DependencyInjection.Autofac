@@ -12,7 +12,7 @@
     <description>Web bootstrapper for Cofoundry.Plugins.DependencyInjection.Autofac</description>
     <copyright>Cofoundry.org</copyright>
     <tags>Cofoundry Autofac Plugin DependencyInjection</tags>
-    <dependencies>7
+    <dependencies>
       <dependency id="Cofoundry.Plugins.DependencyInjection.Autofac" version="$version$" />
 
       <dependency id="Antlr" version="3.5.0.2" />
