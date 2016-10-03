@@ -59,7 +59,21 @@ namespace Cofoundry.Plugins.DependencyInjection.AutoFac
         /// <returns>Child IResolutionContext</returns>
         public IChildResolutionContext CreateChildContext()
         {
-            return new AutoFacChildResolutionContext(_container.BeginLifetimeScope());
+            ILifetimeScope scope;
+            // a bit of hackery here to make requet scope in out-of scope scenarios.
+            // This can be removed once we move to .net core so will hopefully see us through til then.
+            var scopeTag = Autofac.Core.Lifetime.MatchingScopeLifetimeTags.RequestLifetimeScopeTag;
+
+            if (_container.Tag != scopeTag)
+            {
+                scope = _container.BeginLifetimeScope(scopeTag);
+            }
+            else
+            {
+                scope = _container.BeginLifetimeScope();
+            }
+
+            return new AutoFacChildResolutionContext(scope);
         }
 
         /// <summary>
