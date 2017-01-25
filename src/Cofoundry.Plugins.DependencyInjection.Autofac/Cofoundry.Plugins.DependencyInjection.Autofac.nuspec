@@ -8,20 +8,21 @@
     <owners>Cofoundry</owners>
     <licenseUrl>https://github.com/cofoundry-cms/Cofoundry.Plugins.DependencyInjection.Autofac/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://www.cofoundry.org</projectUrl>
+    <iconUrl>http://cofoundry.org/logo-nuget-64x64.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Autofac implementation of Cofoundry.Core.DependencyInjection</description>
     <copyright>Cofoundry.org</copyright>
-    <tags>Cofoundry Autofac Plugin DependencyInjection</tags>
+    <tags>Cofoundry Autofac Plugin DependencyInjection DI</tags>
     <dependencies>
-      <dependency id="Autofac" version="3.5.2" />
-      <dependency id="AutoMapper" version="5.1.1" />
-      <dependency id="Cofoundry.Core" version="0.1.0-beta0023" />
+      <dependency id="Autofac" version="4.3.0" />
+      <dependency id="AutoMapper" version="5.2.0" />
+      <dependency id="Cofoundry.Core" version="0.1.0-beta0081" />
       <dependency id="Conditions" version="2.1.0" />
       <dependency id="EntityFramework" version="6.1.3" />
       <dependency id="HtmlAgilityPack" version="1.4.9.5" />
       <dependency id="Microsoft.AspNet.Razor" version="3.2.3" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="RazorEngine" version="3.9.0" />
+      <dependency id="RazorEngine" version="3.9.3" />
     </dependencies>
   </metadata>
   <files>

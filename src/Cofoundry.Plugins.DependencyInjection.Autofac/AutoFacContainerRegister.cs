@@ -14,6 +14,8 @@ namespace Cofoundry.Plugins.DependencyInjection.AutoFac
     {
         #region Privates
 
+        private static readonly MethodInfo _registerFactoryMethod = typeof(AutoFacContainerRegister).GetMethod(nameof(RegisterFactoryReflectionDelegate), BindingFlags.NonPublic | BindingFlags.Instance);
+
         private readonly AutoFacContainerBuilder _containerBuilder;
         private readonly ContainerBuilder _builder;
         private Type[] _allTypes = null;
@@ -164,6 +166,38 @@ namespace Cofoundry.Plugins.DependencyInjection.AutoFac
             return this;
         }
 
+
+        public IContainerRegister RegisterAllWithFactory(
+            Type typeToRegisterImplementationsOf, 
+            Type genericFactoryType,
+            RegistrationOptions options = null
+            )
+        {
+            var typesToRegister = GetAllTypes()
+                .Where(t => !t.ContainsGenericParameters
+                         && typeToRegisterImplementationsOf.IsAssignableFrom(t)
+                         && t != typeToRegisterImplementationsOf
+                    );
+
+            foreach (var typeToRegister in typesToRegister)
+            {
+                var factoryType = genericFactoryType.MakeGenericType(typeToRegister);
+                var genericRegistrationMethod = _registerFactoryMethod.MakeGenericMethod(typeToRegister, factoryType);
+                genericRegistrationMethod.Invoke(this, new object[] { options });
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Private version of RegisterFactory used to prevent ambiguous
+        /// matches when using reflection to get the MethodInfo
+        /// </summary>
+        private IContainerRegister RegisterFactoryReflectionDelegate<TConcrete, TFactory>(RegistrationOptions options = null) where TFactory : IInjectionFactory<TConcrete>
+        {
+            return RegisterFactory<TConcrete, TFactory>(options);
+        }
+
         public IContainerRegister RegisterFactory<TConcrete, TFactory>(RegistrationOptions options = null) where TFactory : IInjectionFactory<TConcrete>
         {
             return RegisterFactory<TConcrete, TConcrete, TFactory>(options);
@@ -175,10 +209,17 @@ namespace Cofoundry.Plugins.DependencyInjection.AutoFac
         {
             var fn = new Action(() =>
             {
+                // If the factory is a concrete type, we should make sure it is registered
+                if (!typeof(TFactory).IsInterface)
+                {
+                    _builder
+                        .RegisterType<TFactory>()
+                        .AsDefaultScope();
+                }
                 _builder
-                    .RegisterType<TFactory>()
-                    .AsDefaultScope();
-                _builder.Register<TConcrete>(c => c.Resolve<TFactory>().Create()).As<TRegisterAs>().ScopedTo(options);
+                    .Register<TConcrete>(c => c.Resolve<TFactory>().Create())
+                    .As<TRegisterAs>()
+                    .ScopedTo(options);
             });
 
             Register<TRegisterAs>(fn, options);
