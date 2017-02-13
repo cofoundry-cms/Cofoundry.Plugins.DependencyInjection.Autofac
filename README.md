@@ -1,7 +1,7 @@
 # Cofoundry.Plugins.DependencyInjection.Autofac
 
 [![Build status](https://ci.appveyor.com/api/projects/status/38avgn0152pq8ddm?svg=true)](https://ci.appveyor.com/project/Cofoundry/cofoundry-plugins-dependencyinjection-autofac)
-[![NuGet](https://img.shields.io/nuget/v/Cofoundry.Plugins.SiteMap.svg)](https://www.nuget.org/packages/Cofoundry.Plugins.DependencyInjection.Autofac/)
+[![NuGet](https://img.shields.io/nuget/v/Cofoundry.Plugins.DependencyInjection.Autofac.svg)](https://www.nuget.org/packages/Cofoundry.Plugins.DependencyInjection.Autofac/)
 [![Gitter](https://img.shields.io/gitter/room/cofoundry-cms/cofoundry.svg)](https://gitter.im/cofoundry-cms/cofoundry)
 
 
